@@ -5,15 +5,18 @@ import dk.capworld.cinemautils.domain.Shows;
 import dk.capworld.cinemautils.model.BookingRequest;
 import dk.capworld.cinemautils.model.BookingResult;
 import dk.capworld.cinemautils.service.BookingService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Validated
 public class CinemaBookingController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -39,7 +42,7 @@ public class CinemaBookingController {
     }
 
     @PostMapping("/createNewReservations")
-    public ResponseEntity<BookingResult> createNewReservations(@RequestBody BookingRequest bookingRequest) throws Exception {
+    public ResponseEntity<BookingResult> createNewReservations(@RequestBody @Valid BookingRequest bookingRequest) throws Exception {
         logger.info("createNewReservations() called.");
         return new ResponseEntity<>(this.bookingService.makeReservations(bookingRequest), HttpStatus.OK);
     }

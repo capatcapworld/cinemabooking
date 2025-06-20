@@ -10,7 +10,8 @@ CREATE TABLE seat_reservations (
     shows_id SERIAL NOT NULL,
     seat INT NOT NULL,
     created timestamp NOT NULL DEFAULT NOW(),
-    UNIQUE (shows_id, seat)
+    UNIQUE (shows_id, seat),
+    FOREIGN KEY (shows_id) REFERENCES shows(id) ON DELETE CASCADE
 );
 
 // Populating shows with 5 shows on two days

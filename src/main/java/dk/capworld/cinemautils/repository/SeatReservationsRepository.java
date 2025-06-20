@@ -16,9 +16,4 @@ public interface SeatReservationsRepository extends JpaRepository<SeatReservatio
 
     @Modifying
     void deleteById(@Param("id") Long id);
-
-
-    @Modifying
-//    @Query("DELETE FROM InvoiceLine p WHERE p.systemDocNumber =:systemDocNumber")
-    void deleteAllByShowAndSeat(@Param("show") Shows show, @Param("seat") Integer seatId);
 }

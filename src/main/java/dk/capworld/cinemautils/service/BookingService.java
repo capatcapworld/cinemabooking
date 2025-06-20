@@ -55,15 +55,22 @@ public class BookingService {
      */
     @Transactional
     public BookingResult makeReservations(BookingRequest bookingRequest) throws BookingException {
-       logger.info("Make reservation on movie " + bookingRequest.getShowId() + " on seat(s): " + bookingRequest.getSeats().toString() );
-        Shows show = showsRepository.findById(bookingRequest.getShowId()).orElseThrow(() -> new BookingException(BookingException.ErrorCode.ObjectNotFound, "Movie could not be found"));
+        logger.info("Make reservation on movie " + bookingRequest.getShowId() + " on seat(s): " + bookingRequest.getSeats().toString() );
+        Shows show = showsRepository.findById(bookingRequest.getShowId()).orElseThrow(() -> new BookingException(BookingException.ErrorCode.ObjectNotFound, "Movie with id " + bookingRequest.getShowId() + " could not be found"));
+
         List<Integer> seatsToBook = bookingRequest.getSeats();
         for (Integer seat : seatsToBook) {
+            if (isAlreadyBooked(show, seat)) {
+                throw new BookingException(BookingException.ErrorCode.ObjectCannotBeSaved, "Seat " + seat + " is already booked for movie " + bookingRequest.getShowId());
+            }
             saveReservation(show, seat);
         }
         return buildBookingResult(show);
     }
 
+    private Boolean isAlreadyBooked(Shows show, Integer seat) {
+        return seatReservationsRepository.findByShowAndSeat(show, seat).isPresent();
+    }
 
     /**
      * This method cancel one or more reservations of seats for the movie reference in @bookingRequest.
