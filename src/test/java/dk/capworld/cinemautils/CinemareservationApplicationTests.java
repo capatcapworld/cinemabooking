@@ -29,7 +29,7 @@ class CinemareservationApplicationTests {
 
 
     /**
-     * Precondition is that show with id 3 must exist in table shows
+     * Precondition is that show with id 5 must exist in table shows
      */
 	@Test
 	void testBookingServiceMakeReservation() {

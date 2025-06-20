@@ -17,7 +17,7 @@ public class Shows implements Serializable {
     @Serial
     private static final long serialVersionUID = 6044351571359036355L;
 
-    protected Shows() {};
+    public Shows() {};
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

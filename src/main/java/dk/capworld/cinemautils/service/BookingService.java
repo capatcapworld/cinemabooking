@@ -33,8 +33,7 @@ public class BookingService {
     }
 
     public List<Shows> findAllShows () {
-        List<Shows> allShows = this.showsRepository.findAll();
-        return allShows;
+        return this.showsRepository.findAll();
     }
 
     public List<BookingResult> findAllShowsAndAvailableSeats() {
