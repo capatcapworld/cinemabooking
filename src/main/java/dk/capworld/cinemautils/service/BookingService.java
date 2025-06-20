@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class BookingService {
 
-    private static final Integer SEATS_IN_CINEMA = 50;
+    public static final Integer SEATS_IN_CINEMA = 50;
 
     private static final Logger logger = LoggerFactory.getLogger(BookingService.class);
 
@@ -68,7 +68,7 @@ public class BookingService {
         return buildBookingResult(show);
     }
 
-    private Boolean isAlreadyBooked(Shows show, Integer seat) {
+    public Boolean isAlreadyBooked(Shows show, Integer seat) {
         return seatReservationsRepository.findByShowAndSeat(show, seat).isPresent();
     }
 
@@ -127,7 +127,6 @@ public class BookingService {
         List<SeatReservations> reservations = this.seatReservationsRepository.findAllByShow(show);
         List<Integer> availableSeats = getAvailableSeatsFromReservations(reservations);
         bookingResult.setAvailableSeats(availableSeats);
-
         return bookingResult;
     }
 }
