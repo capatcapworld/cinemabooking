@@ -1,15 +1,21 @@
 package dk.capworld.cinemautils.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
+@Data
 @Entity
 @Table(name = "shows")
-@Getter
 public class Shows implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -4663985167819100100L;
+
+    protected Shows() {};
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

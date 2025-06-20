@@ -1,2 +1,2 @@
-DROP TABLE seating_reservations;
-drop table shows;
+DROP TABLE seat_reservations;
+DROP TABLE shows;
