@@ -66,7 +66,7 @@
 
 
 
-# REST-API Open-API description:
+# REST-API Open-API description, found on http://localhost:8085/api-docs :
 
 {
   "openapi": "3.1.0",

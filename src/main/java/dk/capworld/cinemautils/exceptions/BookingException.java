@@ -1,23 +1,19 @@
 package dk.capworld.cinemautils.exceptions;
 
+import lombok.Getter;
+
+import java.io.Serial;
+
+@Getter
 public class BookingException extends RuntimeException {
 
-        public enum ErrorCode {
-                ObjectNotFound,
-                NotNull,
-                InvalidArgument,
-                InvalidState,
-                TypeMismatch,
-                MissingId,
-                DataIntegrityViolationException,
-                InvalidFileFormat,
-                InvalidError,
-                ObjectCannotBeSaved,
-                InsufficientPermissions,
-                SystemError,
-                UniquenessViolationError,
-                InvalidDateRange,
-                UNKNOWN_ERROR
+    @Serial
+    private static final long serialVersionUID = -8333289589000518627L;
+
+    public enum ErrorCode {
+        OBJECT_NOT_FOUND,
+        OBJECT_CANNOT_BE_SAVED,
+        UNKNOWN_ERROR
         }
 
         private final ErrorCode errorCode;
@@ -41,8 +37,4 @@ public class BookingException extends RuntimeException {
             this.errorCode = errorCode;
         }
 
-        public ErrorCode getErrorCode() {
-            return this.errorCode;
-        }
-
-    }
+}

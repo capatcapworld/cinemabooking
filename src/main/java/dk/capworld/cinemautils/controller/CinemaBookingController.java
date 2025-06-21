@@ -29,29 +29,50 @@ public class CinemaBookingController {
         this.bookingService = bookingService;
     }
 
+    /**
+     * THis endpoint will return a list of a available shows
+     *
+     * @return The list of shows
+     */
     @GetMapping("/findAllShows")
     public List<Shows> findAllShows() {
         logger.info("findAllShows() called.");
         return this.bookingService.findAllShows();
     }
 
+    /**
+     * This method will return all available shows and for each show is shown available seats
+     *
+     * @return The list of shows with available seats
+     */
     @GetMapping("/findAllShowsAndAvailableSeatings")
     public ResponseEntity<List<BookingResult>>  findAllShowsAndAvailableSeatings() {
         logger.info("findAllShowsAndAvailableSeatings() called.");
         return new ResponseEntity<>(this.bookingService.findAllShowsAndAvailableSeats(), HttpStatus.OK);
     }
 
+    /**
+     * Create reservation on a specific show.
+     *
+     * @param bookingRequest Information about the show and seats that should be booked.
+     * @return The list of available seats for the show being referenced.
+     */
     @PostMapping("/createNewReservations")
-    public ResponseEntity<BookingResult> createNewReservations(@RequestBody @Valid BookingRequest bookingRequest) throws Exception {
+    public ResponseEntity<BookingResult> createNewReservations(@RequestBody @Valid BookingRequest bookingRequest) {
         logger.info("createNewReservations() called.");
         return new ResponseEntity<>(this.bookingService.makeReservations(bookingRequest), HttpStatus.OK);
     }
 
+    /**
+     * Cancel specific reservation on a show
+     *
+     * @param bookingRequest Information about the show and seats that should be cancelled
+     * @return The list of available seats for the show being referenced.
+     */
     @DeleteMapping("/cancelReservations")
-    public ResponseEntity<BookingResult> cancelReservation(@RequestBody BookingRequest bookingRequest) throws Exception {
+    public ResponseEntity<BookingResult> cancelReservation(@RequestBody BookingRequest bookingRequest) {
         logger.info("cancelReservations() called.");
         return new ResponseEntity<>(this.bookingService.cancelReservations(bookingRequest), HttpStatus.OK);
     }
-    // Update
-//            return  ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, invoice.getInvoiceHeader().getSystemDocNumber().toString())).body(updatedInvoice);
+
 }

@@ -114,7 +114,7 @@ class CinemareservationApplicationTests {
         try {
             bookingService.makeReservations(bookingRequestAlreadyDone);
         } catch (BookingException ex) {
-            assertEquals(BookingException.ErrorCode.ObjectCannotBeSaved, ex.getErrorCode());
+            assertEquals(BookingException.ErrorCode.OBJECT_CANNOT_BE_SAVED, ex.getErrorCode());
         }
 
         List<BookingResult> bookingResults = bookingService.findAllShowsAndAvailableSeats();

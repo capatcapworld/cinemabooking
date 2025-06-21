@@ -36,6 +36,11 @@ public class BookingService {
         return this.showsRepository.findAll();
     }
 
+    /**
+     *  Calculated all available seats for all shows
+     *
+     * @return List of all available seats for all shows
+     */
     public List<BookingResult> findAllShowsAndAvailableSeats() {
         ArrayList<BookingResult> bookingResults = new ArrayList<>();
         List<Shows> allShows = this.showsRepository.findAll();
@@ -55,12 +60,12 @@ public class BookingService {
     @Transactional
     public BookingResult makeReservations(BookingRequest bookingRequest) throws BookingException {
         logger.info("Make reservation on movie " + bookingRequest.getShowId() + " on seat(s): " + bookingRequest.getSeats().toString() );
-        Shows show = showsRepository.findById(bookingRequest.getShowId()).orElseThrow(() -> new BookingException(BookingException.ErrorCode.ObjectNotFound, "Movie with id " + bookingRequest.getShowId() + " could not be found"));
+        Shows show = showsRepository.findById(bookingRequest.getShowId()).orElseThrow(() -> new BookingException(BookingException.ErrorCode.OBJECT_NOT_FOUND, "Movie with id " + bookingRequest.getShowId() + " could not be found"));
 
         List<Integer> seatsToBook = bookingRequest.getSeats();
         for (Integer seat : seatsToBook) {
             if (isAlreadyBooked(show, seat)) {
-                throw new BookingException(BookingException.ErrorCode.ObjectCannotBeSaved, "Seat " + seat + " is already booked for movie " + bookingRequest.getShowId());
+                throw new BookingException(BookingException.ErrorCode.OBJECT_CANNOT_BE_SAVED, "Seat " + seat + " is already booked for movie " + bookingRequest.getShowId());
             }
             saveReservation(show, seat);
         }
@@ -80,7 +85,7 @@ public class BookingService {
     @Transactional
     public BookingResult cancelReservations(BookingRequest bookingRequest) throws BookingException {
         logger.info("Cancel reservation on movie " + bookingRequest.getShowId() + " on seat(s): " + bookingRequest.getSeats().toString() );
-        Shows show = showsRepository.findById(bookingRequest.getShowId()).orElseThrow(() -> new BookingException(BookingException.ErrorCode.ObjectNotFound, "Movie could not be found"));
+        Shows show = showsRepository.findById(bookingRequest.getShowId()).orElseThrow(() -> new BookingException(BookingException.ErrorCode.OBJECT_NOT_FOUND, "Movie could not be found"));
         if (bookingRequest.getSeats().isEmpty()) {
             logger.info("No seats to cancel for movie: " + bookingRequest.getShowId());
         }
@@ -96,7 +101,7 @@ public class BookingService {
     }
 
     public void cancelReservation(Shows show, Integer seat) {
-        SeatReservations seatReservation = seatReservationsRepository.findByShowAndSeat(show, seat).orElseThrow(() -> new BookingException(BookingException.ErrorCode.ObjectNotFound, "Booking with seat " + seat + " could not be found"));
+        SeatReservations seatReservation = seatReservationsRepository.findByShowAndSeat(show, seat).orElseThrow(() -> new BookingException(BookingException.ErrorCode.OBJECT_NOT_FOUND, "Booking with seat " + seat + " could not be found"));
         seatReservationsRepository.deleteById(seatReservation.getId());
     }
 
