@@ -1,7 +1,6 @@
 package dk.capworld.cinemautils.domain;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serial;

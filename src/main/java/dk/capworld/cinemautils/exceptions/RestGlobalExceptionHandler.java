@@ -39,20 +39,9 @@ public class RestGlobalExceptionHandler {
     @ExceptionHandler(BookingException.class)
     public ResponseEntity<?> handleBookingException(BookingException e) {
         logger.error("handleBookingException", e);
-        if (e.getErrorCode().equals(BookingException.ErrorCode.OBJECT_NOT_FOUND)) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(BookingException.ErrorCode.OBJECT_NOT_FOUND + " : " + e.getMessage());
-        } else
-        if (e.getErrorCode().equals(BookingException.ErrorCode.OBJECT_CANNOT_BE_SAVED)) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(BookingException.ErrorCode.OBJECT_CANNOT_BE_SAVED + " : " + e.getMessage());
-        } else {
-           return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(BookingException.ErrorCode.UNKNOWN_ERROR + " : " + e.getMessage());
-        }
+        return ResponseEntity
+              .status(HttpStatus.INTERNAL_SERVER_ERROR)
+              .body(e.getErrorCode() + " : " + e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
