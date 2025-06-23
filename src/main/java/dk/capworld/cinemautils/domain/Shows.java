@@ -5,9 +5,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity
@@ -30,7 +28,4 @@ public class Shows implements Serializable {
 
     @Column(name = "created", nullable = false)
     private Date created;
-
-    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SeatReservations> reservations = new ArrayList<>();
 }
