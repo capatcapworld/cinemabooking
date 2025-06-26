@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -17,10 +18,9 @@ public class SeatReservations implements Serializable {
 
     protected SeatReservations() {};
 
-    public SeatReservations(Shows show, Integer seat, Date created) {
+    public SeatReservations(Shows show, Integer seat) {
         this.show = show;
         this.seat = seat;
-        this.created = created;
     };
 
     @Id
@@ -33,7 +33,4 @@ public class SeatReservations implements Serializable {
 
     @Column(name = "seat", nullable = false)
     private Integer seat;
-
-    @Column(name = "created", nullable = false)
-    private Date created;
 }

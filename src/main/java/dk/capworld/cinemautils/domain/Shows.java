@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -24,8 +24,8 @@ public class Shows implements Serializable {
     private String movieName;
 
     @Column(name = "running_date", nullable = false)
-    private Date runningDate;
+    private LocalDateTime runningDate;
 
     @Column(name = "created", nullable = false)
-    private Date created;
+    private LocalDateTime created;
 }

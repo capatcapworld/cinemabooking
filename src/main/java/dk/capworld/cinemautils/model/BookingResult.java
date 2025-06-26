@@ -1,25 +1,49 @@
 package dk.capworld.cinemautils.model;
 
-import lombok.Builder;
-import lombok.Data;
+import jakarta.validation.constraints.Max;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Builder
-@Data
-public class BookingResult implements Serializable {
+public record BookingResult(Long id, String movieName, LocalDateTime runningDate, List<Integer> availableSeats) implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -5640207376510335668L;
 
-    private Long id;
+    public static Builder builder() {
+        return new Builder();
+    }
 
-    private String movieName;
+    public static class Builder {
+        private Long id;
+        private String movieName;
+        private LocalDateTime runningDate;
+        private List<@Max(value = 50, message = "Seat number must be at max 50") Integer> availableSeats;
 
-    private Date runningDate;
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
 
-    private List<Integer> availableSeats;
+        public Builder movieName(String movieName) {
+            this.movieName = movieName;
+            return this;
+        }
+
+        public Builder runningDate(LocalDateTime runningDate) {
+            this.runningDate = runningDate;
+            return this;
+        }
+
+        public Builder availableSeats(List<@Max(value = 50, message = "Seat number must be at max 50") Integer> availableSeats) {
+            this.availableSeats = availableSeats;
+            return this;
+        }
+
+        public BookingResult build() {
+            return new BookingResult(id, movieName, runningDate, availableSeats);
+        }
+    }
 }

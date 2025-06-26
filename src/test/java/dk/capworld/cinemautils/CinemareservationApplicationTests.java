@@ -16,8 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static dk.capworld.cinemautils.service.BookingService.SEATS_IN_CINEMA;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class CinemareservationApplicationTests {
@@ -58,11 +57,11 @@ class CinemareservationApplicationTests {
 
         List<BookingResult> bookingResults = bookingService.findAllShowsAndAvailableSeats();
         List<BookingResult> filteredBookingResults = bookingResults.stream()
-                        .filter(b -> b.getId().equals(5L))
+                        .filter(b -> b.id().equals(5L))
                         .toList();
 
         assertEquals(1, filteredBookingResults.size());
-        assertEquals(SEATS_IN_CINEMA-3, filteredBookingResults.getFirst().getAvailableSeats().size());
+        assertEquals(SEATS_IN_CINEMA-3, filteredBookingResults.getFirst().availableSeats().size());
 
         bookingService.cancelReservations(bookingRequest);
 
@@ -111,23 +110,22 @@ class CinemareservationApplicationTests {
                 .showId(5L)
                 .seats(reserveSeatsAlredyDone)
                 .build();
-        try {
-            bookingService.makeReservations(bookingRequestAlreadyDone);
-        } catch (BookingException ex) {
-            assertEquals(BookingException.ErrorCode.OBJECT_CANNOT_BE_SAVED, ex.getErrorCode());
-        }
 
+        BookingException bookingException = assertThrows(BookingException.class, () -> {
+            bookingService.makeReservations(bookingRequestAlreadyDone);
+        });
+        assertEquals(BookingException.ErrorCode.OBJECT_CANNOT_BE_SAVED, bookingException.getErrorCode());
+
+        // Clean up after reservation
         List<BookingResult> bookingResults = bookingService.findAllShowsAndAvailableSeats();
         List<BookingResult> filteredBookingResults = bookingResults.stream()
-                .filter(b -> b.getId().equals(5L))
+                .filter(b -> b.id().equals(5L))
                 .toList();
 
         assertEquals(1, filteredBookingResults.size());
-        assertEquals(SEATS_IN_CINEMA-3, filteredBookingResults.getFirst().getAvailableSeats().size());
+        assertEquals(SEATS_IN_CINEMA-3, filteredBookingResults.getFirst().availableSeats().size());
 
         bookingService.cancelReservations(bookingRequest);
-
-
     }
 
 }
