@@ -30,20 +30,18 @@
 
 # The classes Shows and SeatReservations have the following UML diagram:
 
-+-----------------------------+
-|           Shows            |
-+-----------------------------+
-| - id : Long                |
-| - movieName : String       |
-| - runningDate : Date       |
-| - created : Date           |
-|-----------------------------|
-| +getId()                   |
-| +getMovieName()            |
-| +getRunningDate()          |
-| +getCreated()              |
-| +getReservations()         |
-+-----------------------------+
++-------------------------------+
+|           Shows               |
++-------------------------------+
+| - id : Long                   |
+| - movieName : String          |
+| - runningDate : LocalDateTime |
+|-------------------------------|
+| +getId()                      |
+| +getMovieName()               |
+| +getRunningDate()             |
+| +getReservations()            |
++-------------------------------+
           1
           |
           |
@@ -52,16 +50,15 @@
                                        |
                                      * |
                         +-------------------------------+
-                        |      SeatReservations          |
+                        |      SeatReservations         |
                         +-------------------------------+
                         | - id : Long                   |
                         | - seat : Integer              |
-                        | - created : Date              |
-                        |-------------------------------|
                         | - show : Shows                |
+                        |-------------------------------|
+                        | +getId()                      |
                         | +getShow()                    |
                         | +getSeat()                    |
-                        | +getCreated()                 |
                         +-------------------------------+
 
 

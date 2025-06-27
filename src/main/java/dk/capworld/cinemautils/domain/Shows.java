@@ -25,7 +25,4 @@ public class Shows implements Serializable {
 
     @Column(name = "running_date", nullable = false)
     private LocalDateTime runningDate;
-
-    @Column(name = "created", nullable = false)
-    private LocalDateTime created;
 }

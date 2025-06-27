@@ -12,9 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -73,10 +71,6 @@ public class BookingService {
         return buildBookingResult(show);
     }
 
-    public Boolean isAlreadyBooked(Shows show, Integer seat) {
-        return seatReservationsRepository.findByShowAndSeat(show, seat).isPresent();
-    }
-
     /**
      * This method cancel one or more reservations of seats for the movie reference in @bookingRequest.
      *
@@ -96,14 +90,17 @@ public class BookingService {
         return buildBookingResult(show);
     }
 
-
-    public void saveReservation(Shows show, Integer seat) {
-        seatReservationsRepository.save(new SeatReservations(show, seat));
-    }
-
     public void cancelReservation(Shows show, Integer seat) {
         SeatReservations seatReservation = seatReservationsRepository.findByShowAndSeat(show, seat).orElseThrow(() -> new BookingException(BookingException.ErrorCode.OBJECT_NOT_FOUND, "Booking with seat " + seat + " could not be found"));
         seatReservationsRepository.deleteById(seatReservation.getId());
+    }
+
+    public Boolean isAlreadyBooked(Shows show, Integer seat) {
+        return seatReservationsRepository.findByShowAndSeat(show, seat).isPresent();
+    }
+
+    private void saveReservation(Shows show, Integer seat) {
+        seatReservationsRepository.save(new SeatReservations(show, seat));
     }
 
     private BookingResult buildBookingResult(Shows show) {

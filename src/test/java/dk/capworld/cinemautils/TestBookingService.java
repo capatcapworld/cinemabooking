@@ -4,8 +4,6 @@ import dk.capworld.cinemautils.domain.SeatReservations;
 import dk.capworld.cinemautils.domain.Shows;
 import dk.capworld.cinemautils.service.BookingServiceUtils;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,7 +13,6 @@ import static dk.capworld.cinemautils.service.BookingService.SEATS_IN_CINEMA;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-@ExtendWith(MockitoExtension.class)
 public class TestBookingService {
 
     @Test
@@ -24,7 +21,6 @@ public class TestBookingService {
         show.setId(1L);
         show.setMovieName("TopGun 2");
         show.setRunningDate(LocalDateTime.now());
-        show.setCreated(LocalDateTime.now());
 
         List<SeatReservations> reservations = new ArrayList<>(List.of(new SeatReservations(show, 1), new SeatReservations(show, 2), new SeatReservations(show, 3)));
 
@@ -39,7 +35,6 @@ public class TestBookingService {
         show.setId(1L);
         show.setMovieName("TopGun 2");
         show.setRunningDate(LocalDateTime.now());
-        show.setCreated(LocalDateTime.now());
 
         List<SeatReservations> reservations = new ArrayList<>();
         for (int i=1;i <= SEATS_IN_CINEMA;i++) {
@@ -57,7 +52,6 @@ public class TestBookingService {
         show.setId(1L);
         show.setMovieName("TopGun 2");
         show.setRunningDate(LocalDateTime.now());
-        show.setCreated(LocalDateTime.now());
 
         List<SeatReservations> reservations = new ArrayList<>();
         for (int i=1;i <= SEATS_IN_CINEMA + 10;i++) {
