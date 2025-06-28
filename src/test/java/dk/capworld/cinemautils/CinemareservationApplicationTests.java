@@ -9,6 +9,7 @@ import dk.capworld.cinemautils.repository.SeatReservationsRepository;
 import dk.capworld.cinemautils.repository.ShowsRepository;
 import dk.capworld.cinemautils.service.BookingService;
 import jakarta.transaction.Transactional;
+import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class CinemareservationApplicationTests {
 
-    // In memory postgresql database / TestContainer
+    // In memory postgresql database / TestContainer ( Docker has to be running)
     @Container
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15")
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17.5")
             .withDatabaseName("testdb")
             .withUsername("test")
             .withPassword("test");
@@ -56,6 +57,9 @@ class CinemareservationApplicationTests {
     private DataSource dataSource;
 
     @Autowired
+    private Flyway flyway;
+
+    @Autowired
     private BookingService bookingService;
 
     @Autowired
@@ -67,6 +71,10 @@ class CinemareservationApplicationTests {
 
     @BeforeEach
     public void addBeforeEach() {
+        // Run Flyway migrations before each test if needed
+        flyway.clean();  // Start fresh each time (optional)
+        flyway.migrate();
+
         try (Connection connection = dataSource.getConnection();
              Statement stmt = connection.createStatement()) {
             stmt.execute("TRUNCATE TABLE shows RESTART IDENTITY CASCADE");
@@ -163,7 +171,7 @@ class CinemareservationApplicationTests {
                 .build();
         bookingService.makeReservations(bookingRequest);
 
-        List<Integer> reserveSeatsAlredyDone = new ArrayList<>(Arrays.asList(3));
+        List<Integer> reserveSeatsAlredyDone = new ArrayList<>(List.of(3));
         BookingRequest bookingRequestAlreadyDone = BookingRequest.builder()
                 .showId(5L)
                 .seats(reserveSeatsAlredyDone)

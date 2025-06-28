@@ -249,3 +249,6 @@
     }
   }
 }
+
+
+Swagger doc can be found on http://localhost:8085/swagger-ui/index.html
